@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Name-add</title>
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/font-awesome.css">
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+	<nav>
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="navbar-header" >
+				<h3><a href="/">Home</a></h3>
+            </div>
+            <div class="collapse navbar-collapse navbar-right">
+							<ul class="nav navbar-nav">
+								<li class="notsignedin"><a href="login">Sign in with twitter</a></li>9
+								<li class="signedin"><a href="/questions">Questions List</a></li>
+								<li class="signedin"><a href="/addQuestion">New Question</a></li>
+								<li class="signedin">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name"></span><b class="caret"></b></a>
+									<ul class="dropdown-menu multi-level">
+										<li><a class="logout" href="/profile">Profile/Settings</a></li>
+										<li><a class="logout" href="/logout">Log Out</a></li>
+									</ul>
+									</li>
+							</ul>
+            </div>
+		</div>
+	</nav>
+	<br><br><br><br>
+
+	<div class="container">
+		<form>
+    		<input type="field" placeholder="Question" class="question"></input><br>
+    		<input type="field" value="ADD this question" class="submit btn btn-warning"></input>
+		</form>
+	</div>
+
+
+
+		<script src="/js/jquery-2.1.4.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script>
+$(document).ready(function(){
+	$(".submit").on('click', function() {
+		var str='{"question":"' +$(".question").val()+'"}';
+		console.log(str);
+		$.ajax({
+			url: '/api/postQuestion',
+			type: 'POST',
+			data:str,
+			contentType:"application/json"
+		})
+		.done(function(data) {
+			console.log(data);
+			//window.location=data;
+		});
+	});
+	$.get('/getcookie', function(c) {
+		if(c.twitterID){
+			$(".notsignedin").css('display','none');
+			$(".signedin").css('display', 'initial');
+			$(".name").html(c.name);
+		}
+	});
+	$(".logout").on('click', function() {
+		$.get('/logout', function(data) {
+			$(".notsignedin").css('display','initial');
+			$(".signedin").css('display', 'none');
+		});
+	});
+});
+</script>
+</body>
+</html>
