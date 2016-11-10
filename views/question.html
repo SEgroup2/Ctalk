@@ -16,7 +16,7 @@
             </div>
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-               		<li class="notsignedin"><a href="login">Sign in with twitter</a></li>9
+               		<li class="notsignedin"><a href="login">Sign in</a></li>9
 	                <li class="signedin"><a href="/questions">Questions List</a></li>
 	                <li class="signedin"><a href="/addQuestion">New Question</a></li>
 	                <li class="signedin">
@@ -57,10 +57,10 @@ $(document).ready(function(){
 	})
 	.done(function(c) {
 		console.log(c);
-		if(c.twitterID){
+		if(c.ID){
 			$(".notsignedin").css('display','none');
 			$(".signedin").css('display', 'initial');
-			$(".name").html(c.name);
+			$(".name").html(c.firstName);
 			console.log(getQueryString('qID'));
 			$.ajax({
 				url: '/api/questionDetail/'+getQueryString('qID'),

@@ -3,11 +3,12 @@ var path = require('path');
 const Answer=require('../models/Answers');
 
 exports.postAnswer=(req,res,next) => {
-  console.log(req.body);
+
+
   const ans = new Answer({
     questionID: req.body.questionID,
     answer: req.body.answer,
-    userID: req.body.twitterID
+    userID: req.body.ID
   });
   ans.save((err) => {
      if (err) { return next(err); }

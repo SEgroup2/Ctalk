@@ -16,7 +16,7 @@
             </div>
             <div class="collapse navbar-collapse navbar-right">
 							<ul class="nav navbar-nav">
-								<li class="notsignedin"><a href="login">Sign in with twitter</a></li>9
+								<li class="notsignedin"><a href="login">Sign in</a></li>9
 								<li class="signedin"><a href="/questions">Questions List</a></li>
 								<li class="signedin"><a href="/addQuestion">New Question</a></li>
 								<li class="signedin">
@@ -60,7 +60,7 @@ $(document).ready(function(){
 		});
 	});
 	$.get('/getcookie', function(c) {
-		if(c.twitterID){
+		if(c.ID){
 			$(".notsignedin").css('display','none');
 			$(".signedin").css('display', 'initial');
 			$(".name").html(c.name);

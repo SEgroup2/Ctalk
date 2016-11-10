@@ -14,8 +14,8 @@ var app = express();
 //Connect to MongoDB
 const MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
-//var url= 'mongodb://localhost:27017/qa';
-var url= "mongodb://shikhar97:passDBword@ds063946.mlab.com:63946/qa";           //MLab URL when deploying
+var url= 'mongodb://localhost:27017/qa';
+//var url= "mongodb://shikhar97:passDBword@ds063946.mlab.com:63946/qa";           //MLab URL when deploying
 mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -24,8 +24,9 @@ db.once('open', function() {
 });
 
 //Express Configuration
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname));
 app.use('/js', express.static(__dirname + '/public/js'));
 app.use('/css', express.static(__dirname + '/public/css'));
@@ -37,48 +38,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
-
-//SIGN IN WITH TWITTER
-var twitter;
-app.get('/login',function(req,res,next){
-	twitter = new twitterAPI({
-	    consumerKey: 'J5uwAAsAVCL5qXypuD2JvEZpH',
-	    consumerSecret: 'D9pID6kpYZ31J9hcbWWx8d1B4aBHAwhjjlrzeSEdGrK3k20hue',
-	    callback: req.protocol + '://' + req.get('host') + '/callback'
-	});
-	twitter.getRequestToken(function(error, requestToken, requestTokenSecret, results){
-	    if (error) {
-	        console.log("Error getting OAuth request token : " + error);
-	    }
-	    else {
-	    	requestTokeng=requestToken;
-	    	requestTokenSecretg=requestTokenSecret;
-	    	res.redirect('https://twitter.com/oauth/authenticate?oauth_token='+requestToken);
-	    }
-	});
-});
-app.get('/callback',function(req,res,next){
-	oauth_verifierg=req.query.oauth_verifier;
-	twitter.getAccessToken(requestTokeng, requestTokenSecretg, oauth_verifierg, function(error, accessToken, accessTokenSecret, results) {
-	    if (error) console.log(error);
-	    else {
-	    	accessTokeng=accessToken;
-	    	accessTokenSecretg=accessTokenSecret;
-	    }
-		twitter.verifyCredentials(accessTokeng,accessTokenSecretg,function(error,data,response){
-			var time = 864000000;
-			req.session.cookie.maxAge = time;
-			req.session.sessionID=req.sessionID;
-			req.session.twitterID=data.id;
-			req.session.name=data.name;
-			res.redirect('/');
-		});
-	});
-})
-
 //Routes
-//app.get('/login',userController.login);
-
+app.get('/login',userController.loginPage)
 app.get('/getCookie',userController.getCookie);
 app.get('/profile',userController.profile);
 app.get('/logout',userController.logout);
@@ -88,8 +49,18 @@ app.get('/questions',questionController.questions);
 app.get('/addQuestion',questionController.addQuestion);
 app.get('/question?:qID',questionController.questionPage);
 
+
+app.post('/api/login',userController.login);
+app.post('/api/signup',userController.signup);
+//app.post('/api/forgotPass',userController.forgotPass);
+//app.post('/api/changePass',userController.changePass);
+//app.post('/api/topics');
+//app.get('/api/gettopics',userController.getTopics);
+
+
 app.get('/api/feed',answerController.feed);
 app.get('/api/answers/:qID',answerController.answers);
+
 app.get('/api/questionDetail/:qID',questionController.questionDetail);
 app.get('/api/questionsList',questionController.questionsList);
 app.post('/api/postQuestion',questionController.add);

@@ -43,7 +43,7 @@
 
 <script >
 $(document).ready(function(){
-	var twitterID;
+	var ID;
 	$.ajax({
 		url: '/getcookie',
 		type: 'GET',
@@ -51,8 +51,8 @@ $(document).ready(function(){
 	})
 	.done(function(c) {
 		console.log(c);
-		if(c.twitterID){
-			twitterID=c.twitterID;
+		if(c.ID){
+			ID=c.ID;
 			$(".notsignedin").css('display','none');
 			$(".signedin").css('display', 'initial');
 			$(".name").html(c.name);
@@ -71,7 +71,7 @@ $(document).ready(function(){
 	});
 	$(".question-list").on('click','.postAnswer',function(){
 		var id=$(this).attr('id');
-		var str='{"questionID":"'+id+'","answer":"'+$(this).prev().val()+'","twitterID":'+twitterID+'}';
+		var str='{"questionID":"'+id+'","answer":"'+$(this).prev().val()+'","ID":'+ID+'}';
 		console.log(JSON.parse(str));
 
 		$.ajax({
