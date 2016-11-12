@@ -33,9 +33,11 @@
 	<br><br><br><br>
 
 	<div class="container">
-		<form>
-    		<input type="field" placeholder="Question" class="question"></input><br>
-    		<input type="field" value="ADD this question" class="submit btn btn-warning"></input>
+		<form action="/api/postQuestion" method="POST">
+    		<input type="field" placeholder="Question" name="question" class="question"></input><br>
+		    <input type="field" placeholder="Question-Detail" name="detail" class="question-detail"></input><br>
+		    <input type="field" placeholder="Question-Tag" name="tag" class="question-tag"></input><br>
+    		<button type="submit"class="submit btn btn-warning">ADD this question</button>
 		</form>
 	</div>
 
@@ -45,20 +47,6 @@
 		<script src="/js/bootstrap.min.js"></script>
 		<script>
 $(document).ready(function(){
-	$(".submit").on('click', function() {
-		var str='{"question":"' +$(".question").val()+'"}';
-		console.log(str);
-		$.ajax({
-			url: '/api/postQuestion',
-			type: 'POST',
-			data:str,
-			contentType:"application/json"
-		})
-		.done(function(data) {
-			console.log(data);
-			//window.location=data;
-		});
-	});
 	$.get('/getcookie', function(c) {
 		if(c.ID){
 			$(".notsignedin").css('display','none');

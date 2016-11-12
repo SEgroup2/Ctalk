@@ -32,19 +32,39 @@
 	</nav>
 	<br><br><br><br>
 
-		<div class="question-wrapper">
-			<div class="question">Sample Question</div>
-			<div class="question-detail">Detail</div>
-			<div class="question-tags">Tag</div>
-			<div class="answer-wrapper">
-				<div class="answer-author">Me</div>
-				<div class="answer">The Answer</div>
-			</div>
+	<div>
+		<div>
+			<span>Name</span>:<span class="nameField"><span>
 		</div>
-
-	<div class="container question-list">
+		<div>
+			<span>EMail ID</span>:<span class="mailID"></span>
+		</div>
 	</div>
-
+	<h3>Interests</h3>
+	<h3>Change Password</h3>
+	<form  action="/api/changePass" method="post">
+	<div class="top-row">
+		<div class="field-wrap">
+			<label>
+				Current Password<span class="req">*</span>
+			</label>
+			<input type="password" name="currentPass" required autocomplete="off" />
+		</div>
+		<div class="field-wrap">
+			<label>
+				New Password<span class="req">*</span>
+			</label>
+			<input type="password" name="newPass" required autocomplete="off"/>
+		</div>
+	</div>
+	<div class="field-wrap">
+		<label>
+		New Password<span class="req">*</span>
+		</label>
+		<input type="password" name="newPass2" required autocomplete="off"/>
+	</div>
+	<button type="submit" class="submit-button button button-block"/>Submit</button>
+	</form>
 
 
 	<script src="/js/jquery-2.1.4.js"></script>
@@ -63,14 +83,8 @@ $(document).ready(function(){
 			$(".notsignedin").css('display','none');
 			$(".signedin").css('display', 'initial');
 			$(".name").html(c.name);
-			$.ajax({
-				url: '/feed',
-				type: 'GET',
-				dataType: 'json'
-			})
-			.done(function(data) {
-				$(".question-list").html("<div>Questions </div>");
-			});
+			$(".nameField").html(c.name);
+			$(".mailID").html(c.ID);
 		}
 	});
 	$(".logout").on('click', function() {

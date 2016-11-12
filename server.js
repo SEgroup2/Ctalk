@@ -8,14 +8,15 @@ var twitterAPI = require('node-twitter-api');
 var questionController=require('./controllers/question');
 var answerController=require('./controllers/answer');
 var userController=require('./controllers/user');
+var voterController=require('./controllers/voter');
 
 //Create Express server
 var app = express();
 //Connect to MongoDB
 const MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
-//var url= 'mongodb://localhost:27017/qa';
-var url= "mongodb://shikhar97:passDBword@ds063946.mlab.com:63946/qa";           //MLab URL when deploying
+var url= 'mongodb://localhost:27017/qa';
+//var url= "mongodb://shikhar97:passDBword@ds063946.mlab.com:63946/qa";           //MLab URL when deploying
 mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -53,13 +54,14 @@ app.get('/question?:qID',questionController.questionPage);
 app.post('/api/login',userController.login);
 app.post('/api/signup',userController.signup);
 //app.post('/api/forgotPass',userController.forgotPass);
-//app.post('/api/changePass',userController.changePass);
+app.post('/api/changePass',userController.changePass);
 //app.post('/api/topics');
 //app.get('/api/gettopics',userController.getTopics);
 
-
 app.get('/api/feed',answerController.feed);
 app.get('/api/answers/:qID',answerController.answers);
+app.get('/api/upvote/:ansID',voterController.upvote);
+app.get('/api/getUpvotesNo/:ansID',voterController.getUpvotesNo);
 
 app.get('/api/questionDetail/:qID',questionController.questionDetail);
 app.get('/api/questionsList',questionController.questionsList);

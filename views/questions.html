@@ -64,15 +64,16 @@ $(document).ready(function(){
 			.done(function(data) {
         console.log(data);
         for (i in data){
-  				$(".question-list").append('<div><a href="/question?qID='+data[i]._id+'">'+data[i].question+'</a></div><input/><div id='+data[i]._id+' class="btn btn-default submit postAnswer">Submit</div>');
+  				$(".question-list").append('<div><a href="/question?qID='+data[i]._id+'">'+data[i].question+'</a><div class="question-detail">'+data[i].detail
+					+'</div><div class="question-tag">'+data[i].tag+'</div></div><input/><div id='+data[i]._id+' class="btn btn-default submit postAnswer">Submit</div>');
         }
 			});
 		}
 	});
 	$(".question-list").on('click','.postAnswer',function(){
 		var id=$(this).attr('id');
-		var str='{"questionID":"'+id+'","answer":"'+$(this).prev().val()+'","ID":'+ID+'}';
-		console.log(JSON.parse(str));
+		var str='{"questionID":"'+id+'","answer":"'+$(this).prev().val()+'","ID":"'+ID+'"}';
+		console.log(str);
 
 		$.ajax({
 			url: '/api/postAnswer',

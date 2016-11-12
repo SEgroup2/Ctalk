@@ -28,16 +28,16 @@ exports.signup=(req,res,next) => {
   req.session.name=req.body.firstName;
   //var transporter = nodemailer.createTransport('smtps://signup.ctalk%40gmail.com:softengine@smtp.gmail.com');
   var transporter = nodemailer.createTransport(smtpTransport({
-    service: 'gmail',
+    service: 'yahoo',
     auth: {
-        user: 'signup.ctalk@gmail.com',
-        pass: 'softengine'
+        user: 'softwareengineering@yahoo.com',
+        pass: '123@456@789'
     },
     tls: { rejectUnauthorized: false }
-}))
+  }))
   // setup e-mail data with unicode symbols
   var mailOptions = {
-    from: '"C-Talk" <signup.ctalk@gmail.com>', // sender address
+    from: '"C-Talk" <softwareengineering@yahoo.com>', // sender address
   };
   mailOptions["to"]=req.body.EMailID;
   mailOptions["subject"]='Welcome to CTalk '+req.body.firstName;
@@ -63,8 +63,49 @@ exports.signup=(req,res,next) => {
         res.redirect('/');
       });
   });
-
 };
+exports.forgotPass=(req,res,next)=>{
+  User.find({EmailID:req.body.EMailID},function(err,data){
+    if(err) throw err;
+    if(data.length==0){
+      res.send("email does not exists");
+      res.end()
+    }
+    else{
+      var pass=randomstring.generate(10);
+      var transporter = nodemailer.createTransport(smtpTransport({
+        service: 'gmail',
+        auth: {
+            user: 'signup.ctalk@gmail.com',
+            pass: 'softengine'
+        },
+        tls: { rejectUnauthorized: false }
+      }))
+      // setup e-mail data with unicode symbols
+      var mailOptions = {
+        from: '"C-Talk" <signup.ctalk@gmail.com>', // sender address
+      };
+      mailOptions["to"]=req.body.EMailID;
+      mailOptions["subject"]='Welcome to CTalk '+data[0].firstName;
+      mailOptions["text"]="Your password is "+pass;
+      console.log(mailOptions);
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+              console.log("Mail not sent"+error);
+              res.send("Wrong EMail");
+              res.end();
+          }
+          console.log('Message sent: ' + info.response);
+          User.findOneAndUpdate({EmailID:req.body.EMailID},{password:pass},function(err,data){
+            if(err) throw err;
+            res.end();
+          });
+      });
+    }
+  })
+
+}
 exports.login=(req,res,next) => {
   User.find({EmailID:req.body.EMailID,password:req.body.password},function(err,data){
     if(err) throw err;
@@ -88,4 +129,11 @@ exports.login=(req,res,next) => {
   //add upvoting button
   //add question detail and tag
   //add
+}
+exports.changePass=(req,res,next) => {
+  User.findOneAndUpdate ({EmailID:req.body.EMailID,password:req.body.currentPass},{password:req.body.newPass},function(err,data){
+    if(err) throw err;
+    console.log("updated");
+    res.redirect('/profile');
+  })
 }

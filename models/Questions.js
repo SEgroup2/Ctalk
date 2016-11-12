@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 const QuestionSchema = new mongoose.Schema({
-  question: String
+  question: String,
+  detail: String,
+  tag: String
 });
 
 const Question = mongoose.model('Question', QuestionSchema);

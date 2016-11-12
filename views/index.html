@@ -85,9 +85,31 @@ function getDetail(ans){
 	.done(function(quest){
 		console.log(ans.questionID);
 		console.log(quest);
-		$(".feed").append("<div><a href='/question?qID="+quest._id+"'>"+quest.question+"</a><br>By "+ans.userID+"<br>"+ans.answer+"</div><br>");
+		$.ajax({
+			url:'/api/getUpvotesNo/'+ans._id,
+			type:'GET'
+		})
+		.done(function(upvotes){
+			console.log(upvotes);
+			$(".feed").append("<div><a href='/question?qID="+quest._id+"'>"+quest.question+"</a><br><div class='question-detail'>"+quest.detail+
+			"</div><div class='question-tag'>"+quest.tag+"</div>By "+ans.userID+"<br>"+ans.answer+"</div><div><span class='upvote-count "+ans._id+"'>"+upvotes.count+
+			"</span><span id='"+ans._id+"' class='upvote-btn btn btn-info'>Upvote</span></div><br>");
+		})
+
 	});
 }
+
+	$(".feed").on('click','.upvote-btn',function(){
+		var ansID=$(this).attr('id');
+			$.ajax({
+				url:'/api/upvote/'+ansID,
+				type:'GET'
+			})
+			.done(function(){
+				console.log("upvoted");
+				//TODO change upvote number
+			})
+	});
 
 	$(".logout").on('click', function() {
 		$.ajax({

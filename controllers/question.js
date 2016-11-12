@@ -16,7 +16,9 @@ exports.questionPage=(req,res,next) => {
 }
 exports.add=(req,res,next) => {
   const quest = new Question({
-    question: req.body.question
+    question: req.body.question,
+    detail:req.body.detail,
+    tag:req.body.tag
   });
   quest.save((err) => {
      if (err) { return next(err); }
