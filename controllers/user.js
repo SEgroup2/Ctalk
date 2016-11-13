@@ -4,6 +4,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var randomstring = require("randomstring");
 const User=require('../models/User');
 exports.profile=(req,res,next) => {
+  console.log(req.session);
   res.sendFile(path.join(__dirname,'/../views/profile.html'));
 };
 exports.loginPage=(req,res,next) => {
@@ -114,8 +115,9 @@ exports.login=(req,res,next) => {
       res.end();
     }
     else {
+      console.log(data);
       req.session.ID=req.body.EMailID;
-      req.session.name=data.firstName;
+      req.session.name=data[0].firstName;
       console.log(req.body.EMailID);
       console.log(req.session);
       res.redirect('/');
@@ -131,7 +133,7 @@ exports.login=(req,res,next) => {
   //add
 }
 exports.changePass=(req,res,next) => {
-  User.findOneAndUpdate ({EmailID:req.body.EMailID,password:req.body.currentPass},{password:req.body.newPass},function(err,data){
+  User.findOneAndUpdate ({EmailID:req.session.ID,password:req.body.currentPass},{password:req.body.newPass},function(err,data){
     if(err) throw err;
     console.log("updated");
     res.redirect('/profile');
