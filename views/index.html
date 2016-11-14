@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/styleindex.css">
 </head>
 
 <body>
@@ -12,15 +13,15 @@
 	<nav>
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-header" >
-				<h3><a href="/">Home</a></h3>
+				<h3><a href="/" id="nav">Home</a></h3>
             </div>
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-               		<li class="notsignedin"><a href="login">Sign in</a></li>9
-	                <li class="signedin"><a href="/questions">Questions List</a></li>
-	                <li class="signedin"><a href="/addQuestion">New Question</a></li>
+               		<li class="notsignedin"><a href="login" id="nav">Sign in</a></li>9
+	                <li class="signedin"><a href="/questions" id="nav">Questions List</a></li>
+	                <li class="signedin"><a href="/addQuestion" id="nav">New Question</a></li>
 	                <li class="signedin">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name"></span><b class="caret"></b></a>
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
                 		<ul class="dropdown-menu multi-level">
                				<li><a class="profile" href="/profile">Profile/Settings</a></li>
                				<li><a class="logout" href="/logout">Log Out</a></li>
@@ -35,15 +36,6 @@
 
 
 	<div class="container feed">
-		<div class="question-wrapper">
-			<div class="question">Sample Question</div>
-			<div class="question-detail">Detail</div>
-			<div class="question-tags">Tag</div>
-			<div class="answer-wrapper">
-				<div class="answer-author">Me</div>
-				<div class="answer">The Answer</div>
-			</div>
-		</div>
 	</div>
 
 
@@ -90,10 +82,18 @@ function getDetail(ans){
 			type:'GET'
 		})
 		.done(function(upvotes){
-			console.log(upvotes);
-			$(".feed").append("<div><a href='/question?qID="+quest._id+"'>"+quest.question+"</a><br><div class='question-detail'>"+quest.detail+
-			"</div><div class='question-tag'>"+quest.tag+"</div>By "+ans.userID+"<br>"+ans.answer+"</div><div><span class='upvote-count "+ans._id+"'>"+upvotes.count+
-			"</span><span id='"+ans._id+"' class='upvote-btn btn btn-info'>Upvote</span></div><br>");
+			$.ajax({
+				url:'/api/getDownvotesNo/'+ans._id,
+				type:'GET'
+			})
+			.done(function(downvotes){
+				console.log(downvotes);
+				$(".feed").append("<div class='wrapper'><a  id='nav' href='/question?qID="+quest._id+"'><h3>"+quest.question+"</h3></a><div class='question-detail'>"+quest.detail+
+				"</div><div class='question-tag'>"+quest.tag+"</div><br><div class='ans-wrapper'>By "+ans.userID+"<br>"+ans.answer+"<br>"+
+				"<span class='upvote-count "+ans._id+"'>"+upvotes.count+"</span><span id='"+ans._id+"' class='upvote-btn btn btn-info'>Upvote</span>"+
+				"<span class='downvote-count "+ans._id+"'>"+downvotes.count+"</span><span id='"+ans._id+"' class='downvote-btn btn btn-info'>Downvote</span>"+
+				"</div></div><br>");
+			});
 		})
 
 	});
@@ -108,6 +108,17 @@ function getDetail(ans){
 			.done(function(){
 				console.log("upvoted");
 				//TODO change upvote number
+			})
+	});
+
+	$(".feed").on('click','.downvote-btn',function(){
+		var ansID=$(this).attr('id');
+			$.ajax({
+				url:'/api/downvote/'+ansID,
+				type:'GET'
+			})
+			.done(function(){
+				console.log("downvoted");
 			})
 	});
 

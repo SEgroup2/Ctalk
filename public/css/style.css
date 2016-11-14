@@ -16,6 +16,18 @@ input{
 #myChart{
 	width:20%;
 }
+#nav {
+  text-decoration: none;
+  color: #1ab188;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+}
+.btn-info{
+  background-color: rgba(26, 177, 136,0.7);
+}
+.btn-info:hover{
+  background-color: rgba(26, 177, 136,1);
+}
 .jumbotron{
 	margin-left: 5%;
 	margin-right: 5%;

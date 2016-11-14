@@ -10,6 +10,8 @@ var answerController=require('./controllers/answer');
 var userController=require('./controllers/user');
 var voterController=require('./controllers/voter');
 var downVoterController=require('./controllers/downVoter');
+var topicController=require('./controllers/topic');
+var userTopicController=require('./controllers/userTopic');
 
 //Create Express server
 var app = express();
@@ -45,6 +47,7 @@ app.get('/login',userController.loginPage)
 app.get('/getCookie',userController.getCookie);
 app.get('/profile',userController.profile);
 app.get('/logout',userController.logout);
+app.get('/selectTopic',topicController.selectTopic);
 
 app.get('/index',questionController.index);
 app.get('/questions',questionController.questions);
@@ -56,8 +59,11 @@ app.post('/api/login',userController.login);
 app.post('/api/signup',userController.signup);
 app.post('/api/forgotPass',userController.forgotPass);
 app.post('/api/changePass',userController.changePass);
-//app.post('/api/topics');
-//app.get('/api/gettopics',userController.getTopics);
+
+app.get('/api/getTopics',topicController.getTopics);
+app.post('/api/postTopics',userTopicController.postTopics);
+//app.get('/api/topicsList',topicController.topicsList);
+//app.post('/api/userTopics',userTopicController.getUserTopics);
 
 app.get('/api/feed',answerController.feed);
 app.get('/api/answers/:qID',answerController.answers);

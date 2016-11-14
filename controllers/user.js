@@ -22,48 +22,58 @@ exports.getCookie=(req,res,next) => {
 exports.signup=(req,res,next) => {
   //check if id exists
   //check if id is of IIIT Vadodara
-  var pass=randomstring.generate(10);
-  req.session.cookie.maxAge = 864000000;
-  req.session.sessionID=req.sessionID;
-  req.session.ID=req.body.EMailID;
-  req.session.name=req.body.firstName;
-  //var transporter = nodemailer.createTransport('smtps://signup.ctalk%40gmail.com:softengine@smtp.gmail.com');
-  var transporter = nodemailer.createTransport(smtpTransport({
-    service: 'yahoo',
-    auth: {
-        user: 'softwareengineering@yahoo.com',
-        pass: '123@456@789'
-    },
-    tls: { rejectUnauthorized: false }
-  }))
-  // setup e-mail data with unicode symbols
-  var mailOptions = {
-    from: '"C-Talk" <softwareengineering@yahoo.com>', // sender address
-  };
-  mailOptions["to"]=req.body.EMailID;
-  mailOptions["subject"]='Welcome to CTalk '+req.body.firstName;
-  mailOptions["text"]="Your password is "+pass;
-  console.log(mailOptions);
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, function(error, info){
-      if(error){
-          console.log("Mail not sent"+error);
-          res.send("Wrong EMail");
-          res.end();
-      }
-      console.log('Message sent: ' + info.response);
-      const user = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        EmailID: req.body.EMailID,
-        password: pass
-      });
-      console.log(user);
-      user.save((err) => {
-        if (err) return next(err);
-        res.redirect('/');
-      });
-  });
+  var stri=req.body.EMailID;
+  if(stri.toString.split("@")[0]!=="iiitvadodara.ac.in")
+    res.send("Use IIITV ID")
+  else{
+    var name = stri.toString.split("@")[0];
+    if(typeof name=='number')
+      req.session.userType="student"
+    else
+      req.session.userType="Prof"
+    var pass=randomstring.generate(10);
+    req.session.cookie.maxAge = 864000000;
+    req.session.sessionID=req.sessionID;
+    req.session.ID=req.body.EMailID;
+    req.session.name=req.body.firstName;
+    //var transporter = nodemailer.createTransport('smtps://signup.ctalk%40gmail.com:softengine@smtp.gmail.com');
+    var transporter = nodemailer.createTransport(smtpTransport({
+      service: 'gmail',
+      auth: {
+          user: 'signup.ctalk@gmail.com',
+          pass: 'softengine'
+      },
+      tls: { rejectUnauthorized: false }
+    }))
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+      from: '"C-Talk" <signup.ctalk@gmail.com>', // sender address
+    };
+    mailOptions["to"]=req.body.EMailID;
+    mailOptions["subject"]='Welcome to CTalk '+req.body.firstName;
+    mailOptions["text"]="Your password is "+pass;
+    console.log(mailOptions);
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log("Mail not sent"+error);
+            res.send("Wrong EMail");
+            res.end();
+        }
+        console.log('Message sent: ' + info.response);
+        const user = new User({
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          EmailID: req.body.EMailID,
+          password: pass
+        });
+        console.log(user);
+        user.save((err) => {
+          if (err) return next(err);
+          res.redirect('/');
+        });
+    });
+  }
 };
 exports.forgotPass=(req,res,next)=>{
   User.find({EmailID:req.body.EMailID},function(err,data){

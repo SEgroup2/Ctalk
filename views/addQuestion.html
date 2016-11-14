@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Name-add</title>
+	<title>Add Question</title>
 	<link rel="stylesheet" href="/css/bootstrap.css">
 	<link rel="stylesheet" href="/css/font-awesome.css">
 	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/style_question_tag.css">
 </head>
 
 <body>
@@ -16,11 +17,11 @@
             </div>
             <div class="collapse navbar-collapse navbar-right">
 							<ul class="nav navbar-nav">
-								<li class="notsignedin"><a href="login">Sign in</a></li>9
-								<li class="signedin"><a href="/questions">Questions List</a></li>
-								<li class="signedin"><a href="/addQuestion">New Question</a></li>
+								<li class="notsignedin" i><a href="login" id="nav">Sign in></a></li>9
+								<li class="signedin"><a href="questions" id="nav">Questions List</a></li>
+								<li class="signedin"><a href="addQuestion" id="nav">Add Question</a></li>
 								<li class="signedin">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name"></span><b class="caret"></b></a>
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
 									<ul class="dropdown-menu multi-level">
 										<li><a class="profile" href="/profile">Profile/Settings</a></li>
 										<li><a class="logout" href="/logout">Log Out</a></li>
@@ -32,19 +33,133 @@
 	</nav>
 	<br><br><br><br>
 
-	<div class="container">
+	<!--<div class="container">
 		<form action="/api/postQuestion" method="POST">
     		<input type="field" placeholder="Question" name="question" class="question"></input><br>
 		    <input type="field" placeholder="Question-Detail" name="detail" class="question-detail"></input><br>
 		    <input type="field" placeholder="Question-Tag" name="tag" class="question-tag"></input><br>
     		<button type="submit"class="submit btn btn-warning">ADD this question</button>
 		</form>
-	</div>
+	</div>-->
+
+	<!--start-->
+	 <div class="form">
+      <ul class="tab-group">
+        <li class="tab active "><a href="#signup">Add Question</a></li>
+
+      </ul>
+
+
+      <div class="tab-content">
+        <div id="signup">
+
+          <form  action="/api/postQuestion" method="post">
+          <div class="">
+            <div class="field-wrap">
+              <label>
+                Question <span class="req">*</span>
+              </label>
+              <input type="text" name="question" required autocomplete="off" />
+            </div>
+            <div class="field-wrap">
+              <label>
+                Question Details<span class="req">*</span>
+              </label>
+              <input type="text" name="question_detail" required autocomplete="off"/>
+            </div>
+
+
+          </div>
+          <div class="field-wrap">
+            <label>
+             Question Tag <span class="req">*</span>
+            </label>
+            <input type="text" name="tag" required autocomplete="off"/>
+          </div>
+          <button type="submit" class="submit-button button button-block"/>Submit Question</button>
+          </form>
+
+        </div>
+
+        <div id="login">
+          <h1>Welcome Back!</h1>
+          <form action="/api/login" method="post">
+            <div class="field-wrap">
+            <label>
+              Email Address<span class="req">*</span>
+            </label>
+            <input type="email" name="EMailID" required autocomplete="off"/>
+          </div>
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="password" name="password" required autocomplete="off"/>
+          </div>
+          <p class="forgot"><a href="#">Forgot Password?</a></p>
+          <button class="button button-block"/>Log In</button>
+          </form>
+        </div>
+      </div>
+</div>4
+
+	<!--end-->
 
 
 
 		<script src="/js/jquery-2.1.4.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
+		<!--START-->
+
+
+<script >
+$(document).ready(function(){
+  $('.form').find('input, textarea').on('keyup blur focus', function (e) {
+
+    	var $this = $(this),
+      label = $this.prev('label');
+
+  	  if (e.type === 'keyup') {
+  			if ($this.val() === '') {
+            label.removeClass('active highlight');
+          } else {
+            label.addClass('active highlight');
+          }
+      }
+			else if (e.type === 'blur') {
+      	if( $this.val() === '' ) {
+      		label.removeClass('active highlight');
+  			} else {
+  		    label.removeClass('highlight');
+  			}
+      }
+			else if (e.type === 'focus') {
+        if( $this.val() === '' ) {
+      		label.removeClass('highlight');
+  			}
+        else if( $this.val() !== '' ) {
+  		    label.addClass('highlight');
+  			}
+      }
+  });
+
+  $('.tab a').on('click', function (e) {
+    e.preventDefault();
+    $(this).parent().addClass('active');
+    $(this).parent().siblings().removeClass('active');
+    target = $(this).attr('href');
+    $('.tab-content > div').not(target).hide();
+    $(target).fadeIn(600);
+  });
+});
+</script>
+
+
+
+
+		<!--END-->
+
+
 		<script>
 $(document).ready(function(){
 	$.get('/getcookie', function(c) {
