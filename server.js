@@ -18,8 +18,8 @@ var app = express();
 //Connect to MongoDB
 const MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
-var url= 'mongodb://localhost:27017/qa';
-//var url= "mongodb://shikhar97:passDBword@ds063946.mlab.com:63946/qa";           //MLab URL when deploying
+//var url= 'mongodb://localhost:27017/qa';
+var url= "mongodb://shikhar97:passDBword@ds063946.mlab.com:63946/qa";           //MLab URL when deploying
 mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
