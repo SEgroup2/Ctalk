@@ -23,10 +23,10 @@ exports.signup=(req,res,next) => {
   //check if id exists
   //check if id is of IIIT Vadodara
   var stri=req.body.EMailID;
-  if(stri.toString.split("@")[0]!=="iiitvadodara.ac.in")
+  if(stri.toString().split("@")[1]!=="iiitvadodara.ac.in")
     res.send("Use IIITV ID")
   else{
-    var name = stri.toString.split("@")[0];
+    var name = stri.toString().split("@")[0];
     if(typeof name=='number')
       req.session.userType="student"
     else
