@@ -88,16 +88,17 @@ function getDetail(ans){
 			})
 			.done(function(downvotes){
 				console.log(downvotes);
-				$(".feed").append("<div class='wrapper'><a  id='nav' href='/question?qID="+quest._id+"'><h3>"+quest.question+"</h3></a><div class='question-detail'>"+quest.detail+
+				$(".feed").append("<div class='wrapper'><a id='nav' href='/question?qID="+quest._id+"'><h3>"+quest.question+"</h3></a><div class='question-detail'>"+quest.detail+
 				"</div><div class='question-tag'>"+quest.tag+"</div><br><div class='ans-wrapper'>By "+ans.userID+"<br>"+ans.answer+"<br>"+
-				"<span class='upvote-count "+ans._id+"'>"+upvotes.count+"</span><span id='"+ans._id+"' class='upvote-btn btn btn-info'>Upvote</span>"+
-				"<span class='downvote-count "+ans._id+"'>"+downvotes.count+"</span><span id='"+ans._id+"' class='downvote-btn btn btn-info'>Downvote</span>"+
+				"<span class='upvote-count up"+ans._id+"'>"+upvotes.count+"</span><span id='"+ans._id+"' class='upvote-btn btn btn-info'>Upvote</span>"+
+				"<span class='downvote-count down"+ans._id+"'>"+downvotes.count+"</span><span id='"+ans._id+"' class='downvote-btn btn btn-info'>Downvote</span>"+
 				"</div></div><br>");
 			});
 		})
 
 	});
 }
+var done=0;
 
 	$(".feed").on('click','.upvote-btn',function(){
 		var ansID=$(this).attr('id');
@@ -107,10 +108,20 @@ function getDetail(ans){
 			})
 			.done(function(){
 				console.log("upvoted");
-				//TODO change upvote number
+				var upv=$(".up"+ansID).html();
+				if(done==0){
+					var ne=Number(upv)+1;
+					console.log(upv);
+					$(".up"+ansID).html(ne);
+					done=1;
+				}
+				else{
+					$(".up"+ansID).html(upv-1);
+					done=0;
+				}
 			})
 	});
-
+var downdone=0;
 	$(".feed").on('click','.downvote-btn',function(){
 		var ansID=$(this).attr('id');
 			$.ajax({
@@ -119,6 +130,17 @@ function getDetail(ans){
 			})
 			.done(function(){
 				console.log("downvoted");
+				var downv=$(".down"+ansID).html();
+				if(downdone==0){
+					var ne=Number(downv)+1;
+					console.log(downv);
+					$(".down"+ansID).html(ne);
+					downdone=1;
+				}
+				else{
+					$(".down"+ansID).html(downv-1);
+					downdone=0;
+				}
 			})
 	});
 
