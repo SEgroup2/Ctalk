@@ -95,11 +95,8 @@ function getDetail(ans){
 				"</div><br>");
 			});
 		})
-
 	});
 }
-var done=0;
-
 	$(".feed").on('click','.upvote-btn',function(){
 		var ansID=$(this).attr('id');
 			$.ajax({
@@ -107,21 +104,15 @@ var done=0;
 				type:'GET'
 			})
 			.done(function(){
-				console.log("upvoted");
-				var upv=$(".up"+ansID).html();
-				if(done==0){
-					var ne=Number(upv)+1;
-					console.log(upv);
-					$(".up"+ansID).html(ne);
-					done=1;
-				}
-				else{
-					$(".up"+ansID).html(upv-1);
-					done=0;
-				}
+				$.ajax({
+					url:'/api/getUpvotesNo/'+ansID,
+					type:'GET'
+				})
+				.done(function(ne){
+					$(".up"+ansID).html(ne.count);
+				})
 			})
 	});
-var downdone=0;
 	$(".feed").on('click','.downvote-btn',function(){
 		var ansID=$(this).attr('id');
 			$.ajax({
@@ -129,18 +120,13 @@ var downdone=0;
 				type:'GET'
 			})
 			.done(function(){
-				console.log("downvoted");
-				var downv=$(".down"+ansID).html();
-				if(downdone==0){
-					var ne=Number(downv)+1;
-					console.log(downv);
-					$(".down"+ansID).html(ne);
-					downdone=1;
-				}
-				else{
-					$(".down"+ansID).html(downv-1);
-					downdone=0;
-				}
+				$.ajax({
+					url:'/api/getDownvotesNo/'+ansID,
+					type:'GET'
+				})
+				.done(function(ne){
+					$(".down"+ansID).html(ne.count);
+				})
 			})
 	});
 
