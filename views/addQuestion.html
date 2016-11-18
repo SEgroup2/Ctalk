@@ -13,21 +13,21 @@
 	<nav>
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-header" >
-				<h3><a href="/">Home</a></h3>
+				<a href="/" class="home" id="nav">Home</a>
             </div>
             <div class="collapse navbar-collapse navbar-right">
-							<ul class="nav navbar-nav">
-								<li class="notsignedin" i><a href="login" id="nav">Sign in></a></li>9
-								<li class="signedin"><a href="questions" id="nav">Questions List</a></li>
-								<li class="signedin"><a href="addQuestion" id="nav">Add Question</a></li>
-								<li class="signedin">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
-									<ul class="dropdown-menu multi-level">
-										<li><a class="profile" href="/profile">Profile/Settings</a></li>
-										<li><a class="logout" href="/logout">Log Out</a></li>
-									</ul>
-									</li>
-							</ul>
+                <ul class="nav navbar-nav">
+               		<li class="notsignedin"><a href="login" id="nav">Sign in</a></li>9
+	                <li class="signedin"><a href="/questions" id="nav">Questions List</a></li>
+	                <li class="signedin"><a href="/addQuestion" id="nav">New Question</a></li>
+	                <li class="signedin">
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
+                		<ul class="dropdown-menu multi-level" id="nav">
+               				<li><a class="profile" href="/profile">Profile/Settings</a></li>
+               				<li><a class="logout" href="/logout">Log Out</a></li>
+               			</ul>
+                    </li>
+                </ul>
             </div>
 		</div>
 	</nav>
@@ -65,7 +65,7 @@
               <label>
                 Question Details<span class="req">*</span>
               </label>
-              <input type="text" name="question_detail" required autocomplete="off"/>
+              <input type="text" name="detail" required autocomplete="off"/>
             </div>
 
 

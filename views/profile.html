@@ -12,16 +12,16 @@
 	<nav>
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-header" >
-				<h3><a href="/">Home</a></h3>
+				<a href="/" class="home" id="nav">Home</a>
             </div>
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-               		<li class="notsignedin"><a href="login">Sign in</a></li>
-	                <li class="signedin"><a href="/questions">Questions List</a></li>
-	                <li class="signedin"><a href="/addQuestion">New Question</a></li>
+               		<li class="notsignedin"><a href="login" id="nav">Sign in</a></li>9
+	                <li class="signedin"><a href="/questions" id="nav">Questions List</a></li>
+	                <li class="signedin"><a href="/addQuestion" id="nav">New Question</a></li>
 	                <li class="signedin">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name"></span><b class="caret"></b></a>
-                		<ul class="dropdown-menu multi-level">
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
+                		<ul class="dropdown-menu multi-level" id="nav">
                				<li><a class="profile" href="/profile">Profile/Settings</a></li>
                				<li><a class="logout" href="/logout">Log Out</a></li>
                			</ul>
@@ -32,40 +32,38 @@
 	</nav>
 	<br><br><br><br>
 
-	<div>
-		<div>
-			<span>Name</span>:<span class="nameField"><span>
-		</div>
-		<div>
+	<div class="container">
+		<h3>
+			<span >Name</span>: <span class="nameField"><span>
+		</h3>
+		<h3>
 			<span>EMail ID</span>:<span class="mailID"></span>
-		</div>
-	</div>
-	<h3>Interests</h3>
-	<h3>Change Password</h3>
+		</h3>
+	<h3>Change Password</h3><br>
 	<form  action="/api/changePass" method="post">
 	<div class="top-row">
 		<div class="field-wrap">
 			<label>
 				Current Password<span class="req">*</span>
 			</label>
-			<input type="password" name="currentPass" required autocomplete="off" />
+			<input class="form-control" type="password" name="currentPass" required autocomplete="off" />
 		</div>
 		<div class="field-wrap">
 			<label>
 				New Password<span class="req">*</span>
 			</label>
-			<input type="password" name="newPass" required autocomplete="off"/>
+			<input class="form-control" type="password" name="newPass" required autocomplete="off"/>
 		</div>
 	</div>
 	<div class="field-wrap">
 		<label>
 		New Password<span class="req">*</span>
 		</label>
-		<input type="password" name="newPass2" required autocomplete="off"/>
-	</div>
-	<button type="submit" class="submit-button button button-block"/>Submit</button>
+		<input type="password" class="form-control" name="newPass2" required autocomplete="off"/>
+	</div><br>
+	<button type="submit" class="submit-button btn btn-info button button-block"/>Submit</button>
 	</form>
-
+	</div>
 
 	<script src="/js/jquery-2.1.4.js"></script>
 	<script src="/js/bootstrap.min.js"></script>

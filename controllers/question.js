@@ -15,14 +15,16 @@ exports.questionPage=(req,res,next) => {
   res.sendFile(path.join(__dirname,'/../views/question.html'));
 }
 exports.add=(req,res,next) => {
+  console.log(req.body);
   const quest = new Question({
     question: req.body.question,
     detail:req.body.detail,
     tag:req.body.tag
   });
-  quest.save((err) => {
+  quest.save((err,q) => {
      if (err) { return next(err); }
-     res.end();
+     console.log(q._id);
+     res.redirect('/question?qID='+q._id);
    });
 }
 exports.questionsList=(req,res,next) => {

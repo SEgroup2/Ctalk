@@ -2,42 +2,61 @@
 	display: none;
 }
 
-#optionsid:active,#optionsid:hover,#optionsid:focus,#optionsid:visited{
-	background-color: white;
+.navbar-header{
+	padding-top:10px;
+	padding-left:8%;
+	padding-right:8%;
 }
-input{
-	margin:5px;
+.navbar{
 	padding:5px;
-	width:20%;
-}
-#question{
-	width:60%;
-}
-#myChart{
-	width:20%;
+  /*background-color: #1ab188;*/
+	background-color: rgb(23,155,119);
+	border-bottom:1px solid #ddd;
+	box-shadow:0 3px 2px -2px rgba(200,200,200,0.2);
 }
 #nav {
   text-decoration: none;
-  color: #1ab188;
-  -webkit-transition: .5s ease;
-  transition: .5s ease;
+	color:white;
+	font-size:20px;
+	margin:0px;
 }
 .btn-info{
-  background-color: rgba(26, 177, 136,0.7);
+  background-color: rgb(26, 177, 136);
+	border:0px;
+	border-radius: 0px;
 }
-.btn-info:hover{
-  background-color: rgba(26, 177, 136,1);
+.btn-info:hover,.btn-info:focus,.btn-info:active:focus,.btn-info:active:hover, .btn-info.active:hover, .btn-info:active:focus,
+ .btn-info.active:focus, .btn-info:active.focus, .btn-info.active.focus{
+background-color: rgb(23,155,119);
+border:0px;
 }
 .jumbotron{
-	margin-left: 5%;
-	margin-right: 5%;
+	margin-left: 20%;
+	margin-right: 20%;
 }
-a.twitter-btn:hover,
-a.twitter-btn:focus {
-  background-color:rgba(0,132,180,1);
-  color:white;
+body{
+		background-color:rgba(160,179,176,0.1);
 }
-a.twitter-btn{
-  background-color:rgba(0,132,180,0.8);
-  color:white;
+.colo,.colo:active,.colo:hover,.colo:focus{
+	color:rgb(26, 177, 136);
 }
+.wrapper{
+	background-color:white;
+	cursor: pointer;
+  border-radius: 4px;
+	padding:3REM;
+}
+
+.wrapper:hover{
+	box-shadow:0 4px 10px 4px rgba(19, 35, 47, 0);
+}
+.caret{
+	color:white;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+	background-color:rgb(26, 177, 136);
+}
+/*.in{
+	width:800px;
+	height: 200px;
+}*/

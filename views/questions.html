@@ -12,22 +12,22 @@
 	<nav>
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-header" >
-				<h3><a href="/">Home</a></h3>
-            </div>
-            <div class="collapse navbar-collapse navbar-right">
-                <ul class="nav navbar-nav">
-               		<li class="notsignedin"><a href="login">Sign in with twitter</a></li>9
-	                <li class="signedin"><a href="/questions">Questions List</a></li>
-	                <li class="signedin"><a href="/addQuestion">New Question</a></li>
-	                <li class="signedin">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name"></span><b class="caret"></b></a>
-                		<ul class="dropdown-menu multi-level">
-               				<li><a class="profile" href="/profile">Profile/Settings</a></li>
-               				<li><a class="logout" href="/logout">Log Out</a></li>
-               			</ul>
-                    </li>
-                </ul>
-            </div>
+				<a href="/" class="home" id="nav">Home</a>
+						</div>
+						<div class="collapse navbar-collapse navbar-right">
+								<ul class="nav navbar-nav">
+									<li class="notsignedin"><a href="login" id="nav">Sign in</a></li>9
+									<li class="signedin"><a href="/questions" id="nav">Questions List</a></li>
+									<li class="signedin"><a href="/addQuestion" id="nav">New Question</a></li>
+									<li class="signedin">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
+										<ul class="dropdown-menu multi-level">
+											<li><a class="profile" href="/profile">Profile/Settings</a></li>
+											<li><a class="logout" href="/logout">Log Out</a></li>
+										</ul>
+										</li>
+								</ul>
+						</div>
 		</div>
 	</nav>
 	<br><br><br><br>
@@ -64,15 +64,18 @@ $(document).ready(function(){
 			.done(function(data) {
         console.log(data);
         for (i in data){
-  				$(".question-list").append('<div><a href="/question?qID='+data[i]._id+'">'+data[i].question+'</a><div class="question-detail">'+data[i].detail
-					+'</div><div class="question-tag">'+data[i].tag+'</div></div><input/><div id='+data[i]._id+' class="btn btn-default submit postAnswer">Submit</div>');
+  				$(".question-list").prepend('<div class="wrapper"><a class="colo" href="/question?qID='+data[i]._id+'"><h3>'+data[i].question+'</h3></a><div class="question-detail">'+data[i].question_detail
+					+'</div><div class="question-tag">'+data[i].tag+'</div><br><textarea class="span6 in form-control" rows="4"/><br><div id='+data[i]._id+' class="btn btn-info submit postAnswer">Submit</div></div><br>');
         }
 			});
 		}
 	});
 	$(".question-list").on('click','.postAnswer',function(){
 		var id=$(this).attr('id');
-		var str='{"questionID":"'+id+'","answer":"'+$(this).prev().val()+'","ID":"'+ID+'"}';
+		console.log($(this));
+		console.log($(this).prev());
+		console.log($(this).prev().prev().val());
+		var str='{"questionID":"'+id+'","answer":"'+$(this).prev().prev().val()+'","ID":"'+ID+'"}';
 		console.log(str);
 
 		$.ajax({
@@ -83,7 +86,7 @@ $(document).ready(function(){
 		})
 		.done(function(data) {
 			console.log(data);
-
+			window.location='/question?qID='+id;
 		});
 	});
 	$(".logout").on('click', function() {

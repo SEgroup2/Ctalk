@@ -12,16 +12,16 @@
 	<nav>
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-header" >
-				<h3><a href="/">Home</a></h3>
+				<a href="/" class="home" id="nav">Home</a>
             </div>
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-               		<li class="notsignedin"><a href="login">Sign in</a></li>9
-	                <li class="signedin"><a href="/questions">Questions List</a></li>
-	                <li class="signedin"><a href="/addQuestion">New Question</a></li>
+               		<li class="notsignedin"><a href="login" id="nav">Sign in</a></li>9
+	                <li class="signedin"><a href="/questions" id="nav">Questions List</a></li>
+	                <li class="signedin"><a href="/addQuestion" id="nav">New Question</a></li>
 	                <li class="signedin">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name"></span><b class="caret"></b></a>
-                		<ul class="dropdown-menu multi-level">
+	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
+                		<ul class="dropdown-menu multi-level" id="nav">
                				<li><a class="profile" href="/profile">Profile/Settings</a></li>
                				<li><a class="logout" href="/logout">Log Out</a></li>
                			</ul>
@@ -36,11 +36,12 @@
 
 	<div class="container ">
 		<div class="question-wrapper">
-			<div class="question"></div>
+			<div class="question"></div><br>
 			<div class="question-detail"></div>
 			<div class="question-tag"></div>
-		</div>
-    <input placeholder="New Answer"></input><div class="btn submit">Submit</div>
+		</div><br>
+    <textarea class="span6 form-control ans" rows="4"	 placeholder="New Answer" ></textarea><br>
+		<div class="btn btn-info submit">Submit</div><br><br>
 		<div class="answer-list">
 		</div>
 	</div>
@@ -52,6 +53,7 @@
 
 <script >
 $(document).ready(function(){
+	var ID;
 	$.ajax({
 		url: '/getcookie',
 		type: 'GET',
@@ -60,6 +62,7 @@ $(document).ready(function(){
 	.done(function(c) {
 		console.log(c);
 		if(c.ID){
+			ID=c.ID;
 			$(".notsignedin").css('display','none');
 			$(".signedin").css('display', 'initial');
 			$(".name").html(c.name);
@@ -71,7 +74,7 @@ $(document).ready(function(){
 			})
 			.done(function(data) {
 				console.log(data);
-				$(".question").html(data.question);
+				$(".question").html('<a class="colo" href="/question?qID='+data._id+'"><h3>'+data.question+'</h3></a>');
 				$(".question-detail").html(data.detail);
 				$(".question-tag").html(data.tag);
 			});
@@ -82,7 +85,7 @@ $(document).ready(function(){
 			})
 			.done(function(data) {
 				for(i in data){
-					$(".answer-list").append("<div>"+data[i].answer+"<br>By "+data[i].userID+"</div><br>");
+					$(".answer-list").append("<div class='wrapper'>By "+data[i].userID+"<br>"+data[i].answer+"</div><br>");
 				}
 			});
 		}
@@ -93,6 +96,22 @@ $(document).ready(function(){
     var string = reg.exec(href);
     return string ? string[1] : null;
 };
+$(".submit").on('click',function(){
+	var id=getQueryString('qID');
+	var str='{"questionID":"'+id+'","answer":"'+$(".ans").val()+'","ID":"'+ID+'"}';
+	console.log(str);
+
+	$.ajax({
+		url: '/api/postAnswer',
+		type: 'POST',
+		data: str,
+		contentType: 'application/json'
+	})
+	.done(function(data) {
+		console.log(data);
+		window.location.reload();
+	});
+});
 	$(".logout").on('click', function() {
 		$.ajax({
 			url: '/logout',

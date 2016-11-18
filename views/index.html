@@ -13,7 +13,7 @@
 	<nav>
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-header" >
-				<h3><a href="/" id="nav">Home</a></h3>
+				<a href="/" class="home" id="nav">Home</a>
             </div>
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
@@ -22,7 +22,7 @@
 	                <li class="signedin"><a href="/addQuestion" id="nav">New Question</a></li>
 	                <li class="signedin">
 	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
-                		<ul class="dropdown-menu multi-level">
+                		<ul class="dropdown-menu multi-level" id="nav">
                				<li><a class="profile" href="/profile">Profile/Settings</a></li>
                				<li><a class="logout" href="/logout">Log Out</a></li>
                			</ul>
@@ -88,11 +88,11 @@ function getDetail(ans){
 			})
 			.done(function(downvotes){
 				console.log(downvotes);
-				$(".feed").append("<div class='wrapper'><a id='nav' href='/question?qID="+quest._id+"'><h3>"+quest.question+"</h3></a><div class='question-detail'>"+quest.detail+
-				"</div><div class='question-tag'>"+quest.tag+"</div><br><div class='ans-wrapper'>By "+ans.userID+"<br>"+ans.answer+"<br>"+
+				$(".feed").prepend("<div class='wrapper'><a class='colo' href='/question?qID="+quest._id+"'><h3>"+quest.question+"</h3></a><div class='question-detail'>"+quest.detail+
+				"</div><div class='question-tag'>"+quest.tag+"</div><div class='ans-wrapper'>By "+ans.userID+"<br>"+ans.answer+"</div>"+
 				"<span class='upvote-count up"+ans._id+"'>"+upvotes.count+"</span><span id='"+ans._id+"' class='upvote-btn btn btn-info'>Upvote</span>"+
 				"<span class='downvote-count down"+ans._id+"'>"+downvotes.count+"</span><span id='"+ans._id+"' class='downvote-btn btn btn-info'>Downvote</span>"+
-				"</div></div><br>");
+				"</div><br>");
 			});
 		})
 

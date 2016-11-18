@@ -17,12 +17,6 @@ a {
   transition: .5s ease;
 }
 
-#nav {
-  text-decoration: none;
-  color: #1ab188;
-  -webkit-transition: .5s ease;
-  transition: .5s ease;
-}
 
 
 a:hover {
@@ -47,7 +41,7 @@ a:hover {
   content: "";
   display: table;
   clear: both;
-    
+
 }
 .tab-group li a {
   display: block;
