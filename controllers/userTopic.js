@@ -13,7 +13,9 @@ exports.postTopics=(req,res,next) => {
   console.log(json);
   var n=new UserTopic(json);
   n.save(function(err){
-    if(err) throw err;
-    res.redirect('/login');
+    if(err) throw err;req.session.regenerate(function(e){
+      if (e) throw e;
+      res.redirect('/login#login'); 
+    });
   })
 }

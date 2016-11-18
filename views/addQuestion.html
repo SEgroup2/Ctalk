@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Add Question</title>
+	<title>CTalk-Add Question</title>
 	<link rel="stylesheet" href="/css/bootstrap.css">
 	<link rel="stylesheet" href="/css/font-awesome.css">
 	<link rel="stylesheet" href="/css/style.css">
@@ -71,10 +71,12 @@
 
           </div>
           <div class="field-wrap">
-            <label>
-             Question Tag <span class="req">*</span>
-            </label>
-            <input type="text" name="tag" required autocomplete="off"/>
+						<div class="form-group">
+						  <label for="sel1">Select subject tag:</label><br><br>
+
+						  <select class="form-control subjects" name="tag" required id="sel1">
+						  </select>
+						</div>
           </div>
           <button type="submit" class="submit-button button button-block"/>Submit Question</button>
           </form>
@@ -101,7 +103,7 @@
           </form>
         </div>
       </div>
-</div>4
+</div>
 
 	<!--end-->
 
@@ -151,6 +153,18 @@ $(document).ready(function(){
     $('.tab-content > div').not(target).hide();
     $(target).fadeIn(600);
   });
+
+	$.ajax({
+		url:'/api/getTopics',
+		type:'GET'
+	})
+	.done(function (data) {
+		console.log(data);
+		for(i in data){
+			$(".subjects").append("<option>"+data[i].Topic+"</option");
+		}
+	})
+
 });
 </script>
 

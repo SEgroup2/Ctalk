@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Name-home</title>
+	<title>CTalk-selectTopic</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -13,22 +13,22 @@
 	<nav>
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-header" >
-				<h3><a href="/">Home</a></h3>
-            </div>
-            <div class="collapse navbar-collapse navbar-right">
-                <ul class="nav navbar-nav">
-               		<li class="notsignedin"><a href="login">Sign in</a></li>9
-	                <li class="signedin"><a href="/questions">Questions List</a></li>
-	                <li class="signedin"><a href="/addQuestion">New Question</a></li>
-	                <li class="signedin">
-	                	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name"></span><b class="caret"></b></a>
-                		<ul class="dropdown-menu multi-level">
-               				<li><a class="profile" href="/profile">Profile/Settings</a></li>
-               				<li><a class="logout" href="/logout">Log Out</a></li>
-               			</ul>
-                    </li>
-                </ul>
-            </div>
+				<a href="/" class="home" id="nav">Home</a>
+						</div>
+						<div class="collapse navbar-collapse navbar-right">
+								<ul class="nav navbar-nav">
+									<li class="notsignedin"><a href="login" id="nav">Sign in</a></li>9
+									<li class="signedin"><a href="/questions" id="nav">Questions List</a></li>
+									<li class="signedin"><a href="/addQuestion" id="nav">New Question</a></li>
+									<li class="signedin">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="name" id="nav"></span><b class="caret"></b></a>
+										<ul class="dropdown-menu multi-level" id="nav">
+											<li><a class="profile" href="/profile">Profile/Settings</a></li>
+											<li><a class="logout" href="/logout">Log Out</a></li>
+										</ul>
+										</li>
+								</ul>
+						</div>
 		</div>
 	</nav>
 	<br><br><br><br>
@@ -40,14 +40,14 @@
         </select>
     </div>
     <div>
-        <input type="button" id="btnLeft" value="&lt;&lt;" />
-        <input type="button" id="btnRight" value="&gt;&gt;" />
+        <input type="button" id="btnLeft" class=" btn btn-info" value="&lt;&lt;" />
+        <input type="button" id="btnRight" class=" btn btn-info" value="&gt;&gt;" />
     </div>
     <div>
       <form  action="/api/postTopics" method="POST">
         <select id="rightValues" name="topic" size="20" class="saveTopics" multiple>\
         </select>
-        <input type="submit"class="submit" value="submit">
+        <input type="submit"class="submit btn btn-info" value="submit">
       </form>
     </div>
 </section>

@@ -10,6 +10,9 @@ exports.profile=(req,res,next) => {
 exports.loginPage=(req,res,next) => {
   res.sendFile(path.join(__dirname,'/../views/login.html'));
 };
+exports.forgotPage=(req,res,next) => {
+  res.sendFile(path.join(__dirname,'/../views/forgot.html'));
+};
 exports.logout=(req,res,next) => {
   req.session.regenerate(function(e){
     if (e) throw e;
@@ -70,7 +73,7 @@ exports.signup=(req,res,next) => {
         console.log(user);
         user.save((err) => {
           if (err) return next(err);
-          res.redirect('/');
+          res.redirect('/selectTopic');
         });
     });
   }
@@ -97,7 +100,7 @@ exports.forgotPass=(req,res,next)=>{
         from: '"C-Talk" <signup.ctalk@gmail.com>', // sender address
       };
       mailOptions["to"]=req.body.EMailID;
-      mailOptions["subject"]='Welcome to CTalk '+data[0].firstName;
+      mailOptions["subject"]='Hey, '+data[0].firstName;
       mailOptions["text"]="Your password is "+pass;
       console.log(mailOptions);
       // send mail with defined transport object
@@ -110,7 +113,7 @@ exports.forgotPass=(req,res,next)=>{
           console.log('Message sent: ' + info.response);
           User.findOneAndUpdate({EmailID:req.body.EMailID},{password:pass},function(err,data){
             if(err) throw err;
-            res.end();
+            res.redirect('/login');
           });
       });
     }
@@ -133,14 +136,6 @@ exports.login=(req,res,next) => {
       res.redirect('/');
     }
   });
-  //add interest
-  //api for sending data of topics
-  //adding page for area of interest
-  //redirect it to login page
-  //add profile page
-  //add upvoting button
-  //add question detail and tag
-  //add
 }
 exports.changePass=(req,res,next) => {
   User.findOneAndUpdate ({EmailID:req.session.ID,password:req.body.currentPass},{password:req.body.newPass},function(err,data){

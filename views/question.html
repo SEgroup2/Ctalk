@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Name-home</title>
+	<title>CTalk-home</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/font-awesome.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -83,12 +83,66 @@ $(document).ready(function(){
 				type: 'GET',
 				dataType: 'json'
 			})
-			.done(function(data) {
-				for(i in data){
-					$(".answer-list").append("<div class='wrapper'>By "+data[i].userID+"<br>"+data[i].answer+"</div><br>");
+			.done(function(ans) {
+				for(i in ans){
+					getDetail(ans[i]);
+					//$(".ans-list").append("<div class='wrapper'>By "+ans[i].userID+"<br>"+ans[i].ans+"</div><br>");
 				}
 			});
 		}
+	});
+	function getDetail(ans){
+		console.log(ans);
+		$.ajax({
+			url:'/api/getUpvotesNo/'+ans._id,
+			type:'GET'
+		})
+		.done(function(upvotes){
+			$.ajax({
+				url:'/api/getDownvotesNo/'+ans._id,
+				type:'GET'
+			})
+			.done(function(downvotes){
+				console.log(downvotes);
+				$(".answer-list").prepend("<div class='wrapper'><div class='ans-wrapper'>By "+ans.userID+"<br>"+ans.answer+"</div>"+
+				"<span class='upvote-count up"+ans._id+"'>"+upvotes.count+"</span><span id='"+ans._id+"' class='upvote-btn btn btn-info'>Upvote</span>"+
+				"<span class='downvote-count down"+ans._id+"'>"+downvotes.count+"</span><span id='"+ans._id+"' class='downvote-btn btn btn-info'>Downvote</span>"+
+				"</div><br>");
+			});
+		})
+	}
+
+	$(".answer-list").on('click','.upvote-btn',function(){
+		var ansID=$(this).attr('id');
+			$.ajax({
+				url:'/api/upvote/'+ansID,
+				type:'GET'
+			})
+			.done(function(){
+				$.ajax({
+					url:'/api/getUpvotesNo/'+ansID,
+					type:'GET'
+				})
+				.done(function(ne){
+					$(".up"+ansID).html(ne.count);
+				})
+			})
+	});
+	$(".answer-list").on('click','.downvote-btn',function(){
+		var ansID=$(this).attr('id');
+			$.ajax({
+				url:'/api/downvote/'+ansID,
+				type:'GET'
+			})
+			.done(function(){
+				$.ajax({
+					url:'/api/getDownvotesNo/'+ansID,
+					type:'GET'
+				})
+				.done(function(ne){
+					$(".down"+ansID).html(ne.count);
+				})
+			})
 	});
 	var getQueryString = function ( field, url ) {
     var href = url ? url : window.location.href;

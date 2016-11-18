@@ -48,6 +48,7 @@ app.get('/getCookie',userController.getCookie);
 app.get('/profile',userController.profile);
 app.get('/logout',userController.logout);
 app.get('/selectTopic',topicController.selectTopic);
+app.get('/forgot',userController.forgotPage);
 
 app.get('/index',questionController.index);
 app.get('/questions',questionController.questions);
